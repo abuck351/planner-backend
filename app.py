@@ -6,6 +6,7 @@ import settings
 
 # Resource Imports
 from resources.results_resource import ResultsResource
+from resources.departments_resource import DepartmentsResource
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -22,6 +23,7 @@ def create_tables():
 api = Api(app)
 # api.add_resource(<>, "/my/route")
 api.add_resource(ResultsResource, "/api/results")
+api.add_resource(DepartmentsResource, "/api/depts")
 
 
 if __name__ == "__main__":
