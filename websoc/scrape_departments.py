@@ -9,7 +9,7 @@ from models.departments_model import DepartmentsModel
 
 
 def _scrape() -> [Dict]:
-    source = requests.get(websoc.URL, headers=websoc.HEADER).content
+    source = requests.get(websoc.URL, headers={"User-Agent": websoc.USER_AGENT}).content
     soup = BeautifulSoup(source, "lxml")
     depts = []
 

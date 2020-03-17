@@ -5,7 +5,7 @@ from utils.db import db
 import settings
 
 # Resource Imports
-from resources.results_resource import ResultsResource
+from resources.search_resource import SearchResource
 from resources.departments_resource import DepartmentsResource
 
 app = Flask(__name__)
@@ -22,7 +22,7 @@ def create_tables():
 
 api = Api(app)
 # api.add_resource(<>, "/my/route")
-api.add_resource(ResultsResource, "/api/results")
+api.add_resource(SearchResource, "/api/search")
 api.add_resource(DepartmentsResource, "/api/depts")
 
 

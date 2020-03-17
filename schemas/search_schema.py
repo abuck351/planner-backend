@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields
 
 
-class ResultsSchema(Schema):
+class SearchSchema(Schema):
     """
     term:
         format: YYYY-TERM
