@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+
+[packages]
+flask-restful = "*"
+flask-sqlalchemy = "*"
+flask-cors = "*"
+lxml = "*"
+beautifulsoup4 = "*"
+requests = "*"
+python-dotenv = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
