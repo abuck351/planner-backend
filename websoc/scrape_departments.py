@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 from typing import Dict
 import websoc.websoc_settings as websoc
+
+# Data
 import utils.db as db
 from models.departments_model import DepartmentsModel
 
