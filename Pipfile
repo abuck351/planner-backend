@@ -14,6 +14,7 @@ lxml = "*"
 beautifulsoup4 = "*"
 requests = "*"
 python-dotenv = "*"
+webargs = "*"
 
 [requires]
 python_version = "3.7"
