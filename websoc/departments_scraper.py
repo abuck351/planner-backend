@@ -8,6 +8,10 @@ import websoc.settings as websoc
 from models.departments_model import DepartmentsModel
 
 
+def _clean_dept_name(text: str) -> str:
+    return text.split(".")[-1]
+
+
 def _scrape() -> [Dict]:
     source = requests.get(websoc.URL, headers={"User-Agent": websoc.USER_AGENT}).content
     soup = BeautifulSoup(source, "lxml")
@@ -15,7 +19,9 @@ def _scrape() -> [Dict]:
 
     dept_select = soup.find("select", {"name": "Dept"})
     for option in dept_select.find_all("option"):
-        depts.append({"value": option["value"], "text": option.text})
+        if option["value"] == " ALL":
+            continue
+        depts.append({"code": option["value"], "name": _clean_dept_name(option.text)})
 
     return depts
 
