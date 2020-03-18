@@ -4,6 +4,26 @@ from typing import Dict, Any
 import websoc.websoc_settings as websoc
 
 
+cell_headers = [
+    "code",
+    "type",
+    "section",
+    "units",
+    "instructor",
+    "time",
+    "building",
+    "final",
+    "max",
+    "enrolled",
+    "waitlist",
+    "requests",
+    "restrictions",
+    "textbooks",
+    "website",
+    "status",
+]
+
+
 def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
     source = requests.post(
         websoc.URL,
@@ -14,7 +34,7 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
         data=search_data,
     ).content
     soup = BeautifulSoup(source, "lxml")
-    # print(soup.prettify())
+
     courses = []
     course = {}
 
@@ -27,25 +47,6 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
             course["title"] = cells[0].text  # TODO: Fix the ugly formatting
             course["sections"] = []
             continue
-
-        cell_headers = [
-            "code",
-            "type",
-            "section",
-            "units",
-            "instructor",
-            "time",
-            "building",
-            "final",
-            "max",
-            "enrolled",
-            "waitlist",
-            "requests",
-            "restrictions",
-            "textbooks",
-            "website",
-            "status",
-        ]
 
         section = {}
         for j, cell in enumerate(cells):
