@@ -1,17 +1,25 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
+from dotenv import load_dotenv
+
 from utils.db import db
-import settings
 
 # Resource Imports
 from resources.search_resource import SearchResource
 from resources.departments_resource import DepartmentsResource
 
+# App Settings
+load_dotenv(verbose=True)
+DB_URI = os.getenv("DB_URI")
+PLANNER_SECRET_KEY = os.getenv("PLANNER_SECRET_KEY")
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = settings.DB_URI
-app.secret_key = settings.PLANNER_SECRET_KEY
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+app.secret_key = PLANNER_SECRET_KEY
 CORS(app)
 
 

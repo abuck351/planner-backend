@@ -1,5 +1,6 @@
-from utils.db import db
 from typing import Dict
+
+from utils.db import db
 
 
 class DepartmentsModel(db.Model):

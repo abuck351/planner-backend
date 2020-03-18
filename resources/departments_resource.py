@@ -1,11 +1,10 @@
 from flask import request
 from flask_restful import Resource
-import utils.messages as msg
 
-# Data
+import utils.messages as msg
 import utils.db as db
 from models.departments_model import DepartmentsModel
-from websoc.scrape_departments import update_departments
+from websoc.departments_scraper import update_departments
 
 
 class DepartmentsResource(Resource):

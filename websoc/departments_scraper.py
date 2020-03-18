@@ -1,10 +1,10 @@
+from typing import Dict
+
 from bs4 import BeautifulSoup
 import requests
-from typing import Dict
-import websoc.websoc_settings as websoc
 
-# Data
 import utils.db as db
+import websoc.settings as websoc
 from models.departments_model import DepartmentsModel
 
 

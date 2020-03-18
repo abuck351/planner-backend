@@ -1,7 +1,9 @@
+from typing import Dict, Any
+
 from bs4 import BeautifulSoup
 import requests
-from typing import Dict, Any
-import websoc.websoc_settings as websoc
+
+import websoc.settings as websoc
 
 
 cell_headers = [
