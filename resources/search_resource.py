@@ -43,11 +43,9 @@ class SearchResource(Resource):
 
         for arg_name, arg_value in args.items():
             if arg_name == "term":
-                data["term"] = websoc.search_parsers.year_term(arg_value)
+                data[data_map["term"]] = websoc.search_parsers.year_term(arg_value)
                 continue
+
             data[data_map[arg_name]] = arg_value
 
-        data["YearTerm"] = websoc.search_parsers.year_term(args["term"])
-
-        print(data)
         return {"results": scrape(data)}
