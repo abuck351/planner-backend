@@ -10,6 +10,7 @@ from utils.db import db
 # Resource Imports
 from resources.search_resource import SearchResource
 from resources.departments_resource import DepartmentsResource
+from resources.course_in_plan_resource import CourseInPlanResource
 
 # App Settings
 load_dotenv(verbose=True)
@@ -29,9 +30,9 @@ def create_tables():
 
 
 api = Api(app)
-# api.add_resource(<>, "/my/route")
 api.add_resource(SearchResource, "/api/search")
 api.add_resource(DepartmentsResource, "/api/depts")
+api.add_resource(CourseInPlanResource, "/api/course")
 
 
 if __name__ == "__main__":

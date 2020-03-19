@@ -12,6 +12,3 @@ class DepartmentsModel(db.Model):
 
     def json(self) -> Dict:
         return {"_id": self._id, "code": self.value, "name": self.text}
-
-    def __str__(self) -> str:
-        return f"{self._id}, {self.code}, {self.name}"

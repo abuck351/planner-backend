@@ -13,6 +13,3 @@ class PlanModel(db.Model):
 
     def json(self) -> Dict:
         return {"_id": self._id, "name": self.name}
-
-    def __str__(self) -> str:
-        return f"{self._id}, {self.name}"

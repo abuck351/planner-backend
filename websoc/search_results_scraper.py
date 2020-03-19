@@ -6,16 +6,27 @@ import requests
 import websoc.settings as websoc
 
 
+def parse_title(text: str) -> str:
+    try:
+        text_list = text.replace(u"\xa0", u" ").split()
+        if "(Prerequisites)" in text_list:
+            text_list = text_list[:-1]
+        return " ".join(text_list)
+    except Exception as e:
+        print(e)
+        return text
+
+
 cell_headers = [
     "code",
-    "type",
-    "section",
+    "section_type",
+    "section_name",
     "units",
     "instructor",
-    "time",
+    "meeting_time",
     "building",
-    "final",
-    "max",
+    "final_time",
+    "max_capacity",
     "enrolled",
     "waitlist",
     "requests",
@@ -46,13 +57,14 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
             # This row displays the course title (should be the first row found)
             course = {}
             courses.append(course)
-            course["title"] = cells[0].text  # TODO: Fix the ugly formatting
+            course["title"] = parse_title(cells[0].text)
             course["sections"] = []
             continue
 
         section = {}
         for j, cell in enumerate(cells):
             section[cell_headers[j]] = cell.text
+
         course["sections"].append(section)
 
     return courses
