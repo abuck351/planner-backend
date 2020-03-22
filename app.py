@@ -10,6 +10,7 @@ from utils.db import db
 # Resource Imports
 from resources.search_resource import SearchResource
 from resources.departments_resource import DepartmentsResource
+from resources.plan_resource import PlanResource
 from resources.course_in_plan_resource import CourseInPlanResource
 
 # App Settings
@@ -32,8 +33,8 @@ def create_tables():
 api = Api(app)
 api.add_resource(SearchResource, "/api/search")
 api.add_resource(DepartmentsResource, "/api/depts")
-api.add_resource(CourseInPlanResource, "/api/course")
-
+api.add_resource(PlanResource, "/api/plans/<string:name>")
+# TODO: Add CourseInPlanResource
 
 if __name__ == "__main__":
     db.init_app(app)

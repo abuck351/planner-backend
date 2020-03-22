@@ -11,4 +11,4 @@ class DepartmentsModel(db.Model):
     name = db.Column(db.String, nullable=False)
 
     def json(self) -> Dict:
-        return {"_id": self._id, "code": self.value, "name": self.text}
+        return {"_id": self._id, "code": self.code, "name": self.name}

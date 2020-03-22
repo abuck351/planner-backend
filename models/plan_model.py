@@ -8,8 +8,9 @@ class PlanModel(db.Model):
 
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    term = db.Column(db.String, nullable=False)
 
-    __table_args__ = db.UniqueConstraint("name")
+    __table_args__ = (db.UniqueConstraint("name", "term"),)
 
     def json(self) -> Dict:
-        return {"_id": self._id, "name": self.name}
+        return {"_id": self._id, "name": self.name, "term": self.term}
