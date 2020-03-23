@@ -25,9 +25,11 @@ class PlanResource(Resource):
             return {"message": msg.not_found("Plan", (name, args))}, 404
 
     def post(self, name):
-        args = parser.parse(PlanSchema, request)
+        term = request.args.get("term")
+        if term is None:
+            return {"message": msg.bad_parameters("term")}, 400
 
-        plan = PlanModel(name=name, **args)
+        plan = PlanModel(name=name, term=term)
         try:
             db.save(plan)
         except:

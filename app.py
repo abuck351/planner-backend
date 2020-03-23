@@ -34,7 +34,8 @@ api = Api(app)
 api.add_resource(SearchResource, "/api/search")
 api.add_resource(DepartmentsResource, "/api/depts")
 api.add_resource(PlanResource, "/api/plans/<string:name>")
-# TODO: Add CourseInPlanResource
+api.add_resource(CourseInPlanResource, "/api/plans/<string:plan_name>/course")
+
 
 if __name__ == "__main__":
     db.init_app(app)

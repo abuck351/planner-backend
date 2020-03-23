@@ -3,22 +3,9 @@ from flask_restful import Resource
 from webargs.flaskparser import parser
 
 import utils.messages as msg
+from websoc.utils import parse_year_term
 from websoc.search_results_scraper import scrape
 from schemas.search_schema import SearchSchema
-
-
-def parse_year_term(arg: str):
-    year, term = arg.split("-")
-    term_translator = {
-        "WINTER": "03",
-        "SPRING": "14",
-        "SUM1": "25",
-        "SUM10": "39",
-        "SUMCOM": "51",
-        "SUM2": "76",
-        "FALL": "92",
-    }
-    return f"{year}-{term_translator[term]}"
 
 
 data_map = {
