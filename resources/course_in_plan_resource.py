@@ -73,4 +73,57 @@ class CourseInPlanResource(Resource):
             return {"message": msg.internal_server("save", "Course")}, 500
 
     def delete(self, plan_name):
-        pass
+        args = parser.parse(CourseInPlanSchema, request)
+
+        # Get the plan_id
+        try:
+            plan_id = _get_plan_id(plan_name, args["term"])
+            if plan_id == -1:
+                return (
+                    {"message": msg.not_found("Plan", (plan_name, args["term"]))},
+                    404,
+                )
+        except:
+            traceback.print_exc()
+            return {"message": msg.internal_server("retrieve", "Plan")}, 500
+
+        # Get the course
+        try:
+            course = db.find_by(
+                CourseModel, term=args["term"], code=args["course_code"]
+            ).first()
+        except:
+            traceback.print_exc()
+            return {"message": msg.internal_server("retrieve", "Course")}, 500
+
+        # Return 404 if no course was found
+        if not course:
+            return (
+                {
+                    "message": msg.not_found(
+                        "Course", (args["term"], args["course_code"])
+                    )
+                },
+                404,
+            )
+
+        # Find the CourseInPlan
+        try:
+            course_in_plan = db.find_by(
+                CourseInPlanModel, plan_id=plan_id, course_id=course._id
+            ).first()
+        except:
+            traceback.print_exc()
+            return (
+                {"message": msg.not_found("CourseInPlan", (plan_id, course._id))},
+                404,
+            )
+
+        # Delete it
+        try:
+            db.delete(course_in_plan)
+        except:
+            traceback.print_exc()
+            return {"message": msg.internal_server("delete", "CourseInPlan")}, 500
+
+        return {"message": msg.success("CourseInPlan", "deleted")}
