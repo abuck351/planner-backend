@@ -1,3 +1,5 @@
+import traceback
+
 from flask import request
 from flask_restful import Resource
 from webargs.flaskparser import parser
@@ -17,6 +19,7 @@ class PlanResource(Resource):
             else:
                 plans = db.find_by(PlanModel, name=name)
         except:
+            traceback.print_exc()
             return {"message": msg.internal_server("retrieve", "Plan")}, 500
 
         if plans:
@@ -33,6 +36,7 @@ class PlanResource(Resource):
         try:
             db.save(plan)
         except:
+            traceback.print_exc()
             return {"message": msg.internal_server("save", "PlanModel")}, 500
 
         return {"message": msg.success("Plan", "created"), "plan": plan.json()}, 201

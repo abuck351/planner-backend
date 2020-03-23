@@ -1,4 +1,5 @@
 from typing import Dict, Any
+import traceback
 
 from bs4 import BeautifulSoup
 import requests
@@ -15,8 +16,8 @@ def _parse_title(text: str) -> str:
         if "(Prerequisites)" in text_list:
             text_list = text_list[:-1]
         return " ".join(text_list)
-    except Exception as e:
-        print(e)
+    except:
+        traceback.print_exc()
         return text
 
 

@@ -39,7 +39,7 @@ class CourseInPlanResource(Resource):
                     {"message": msg.not_found("Plan", (plan_name, args["term"]))},
                     404,
                 )
-        except Exception as e:
+        except:
             traceback.print_exc()
             return {"message": msg.internal_server("retrieve", "Plan")}, 500
 
@@ -55,7 +55,7 @@ class CourseInPlanResource(Resource):
                     },
                     404,
                 )
-        except Exception as e:
+        except:
             traceback.print_exc()
             return {"message": msg.internal_server("retrieve", "Course")}, 500
 
@@ -68,7 +68,7 @@ class CourseInPlanResource(Resource):
         try:
             db.save(course_in_plan)
             return course_in_plan.json()
-        except Exception as e:
+        except:
             traceback.print_exc()
             return {"message": msg.internal_server("save", "Course")}, 500
 
