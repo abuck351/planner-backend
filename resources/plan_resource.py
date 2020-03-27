@@ -32,6 +32,10 @@ class PlanResource(Resource):
         if term is None:
             return {"message": msg.bad_parameters("term")}, 400
 
+        plan = db.find_by(PlanModel, name=name, term=term)
+        if plan:
+            return {"message": f"A plan named {name} for {term} already exists"}, 400
+
         plan = PlanModel(name=name, term=term)
         try:
             db.save(plan)
