@@ -15,17 +15,19 @@ class PlanResource(Resource):
 
         try:
             if term:
-                plans = db.find_by(PlanModel, name=name, term=term)
+                plans = db.find_by(PlanModel, name=name, term=term).all()
             else:
-                plans = db.find_by(PlanModel, name=name)
+                plans = db.find_by(PlanModel, name=name).all()
         except:
             traceback.print_exc()
             return {"message": msg.internal_server("retrieve", "Plan")}, 500
 
+        print(plans)
         if plans:
             return {"plans": [plan.json() for plan in plans]}
         else:
-            return {"message": msg.not_found("Plan", (name, args))}, 404
+            identifier = (name, term) if term else name
+            return {"message": msg.not_found("Plan", identifier)}, 404
 
     def post(self, name):
         term = request.args.get("term")
