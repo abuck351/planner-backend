@@ -21,6 +21,25 @@ def _parse_title(text: str) -> str:
         return text
 
 
+def _parse_enrolled(text: str) -> int:
+    try:
+        if "/" in text:
+            return int(text.split("/")[0].strip())
+        else:
+            return int(text)
+    except ValueError as e:
+        traceback.print_exc()
+        return 0
+
+
+def _parse_max_capacity(text: str) -> int:
+    try:
+        return int(text)
+    except ValueError as e:
+        traceback.print_exc()
+        return 1
+
+
 cell_headers = [
     "code",
     "section_type",
@@ -52,6 +71,7 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
     ).content
     soup = BeautifulSoup(source, "lxml")
 
+    courses_count = 0
     courses = []
     course = {}
 
@@ -61,13 +81,23 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
             # This row displays the course title (should be the first row found)
             course = {}
             courses.append(course)
+            courses_count += 1
+            course["count"] = courses_count
             course["title"] = _parse_title(cells[0].text)
             course["sections"] = []
             continue
 
         section = {}
         for j, cell in enumerate(cells):
-            section[cell_headers[j]] = cell.text
+
+            # TODO: I could do something more elegant where the "parsing"
+            #       functions are also stored in the cell_headers dictionary
+            if cell_headers[j] == "enrolled":
+                section["enrolled"] = _parse_enrolled(cell.text)
+            elif cell_headers[j] == "max_capacity":
+                section["max_capacity"] = _parse_max_capacity(cell.text)
+            else:
+                section[cell_headers[j]] = cell.text
 
         course["sections"].append(section)
 
@@ -123,4 +153,3 @@ def save_to_db(term: str, course_code: str) -> int:
     course = CourseModel(**course_data)
     db.save(course)
     return course._id
-
