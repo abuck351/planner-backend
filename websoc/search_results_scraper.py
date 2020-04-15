@@ -40,6 +40,47 @@ def _parse_max_capacity(text: str) -> int:
         return 1
 
 
+def _parse_meeting_time(text: str) -> (str, str, str, str):
+    """
+    Returns (days, start_time, end_time, time_display)
+    """
+    # Clean up text and split it into days and time
+    try:
+        if "TBA" in text:
+            return "TBA", None, None, "TBA"
+
+        if "\n" in text:
+            text = text.split("\n")[0]
+        days_and_time = ' '.join(text.split()).split()
+
+        days = days_and_time[0]
+        
+        time = ''.join(days_and_time[1:]).split('-')
+        time_display = f"{time[0]}-{time[1]}"
+        pm = 'p' in time[1]
+        if pm:
+            time[1] = time[1][:-1]
+            
+        # Start time
+        start_hour, start_minutes = time[0].split(':')
+        start_hour = int(start_hour)
+        if pm and start_hour < 10:
+            start_hour += 12
+        start_time = f"{start_hour}:{start_minutes}:00"
+        
+        # End time
+        end_hour, end_minutes = time[1].split(':')
+        end_hour = int(end_hour)
+        if pm and end_hour <= 11:
+            end_hour += 12
+        end_time = f"{end_hour}:{end_minutes}:00"
+        
+        return days, start_time, end_time, time_display
+    except Exception:
+        traceback.print_exc()
+        return "TBA", None, None, "TBA"
+
+
 cell_headers = [
     "code",
     "section_type",
@@ -96,6 +137,12 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
                 section["enrolled"] = _parse_enrolled(cell.text)
             elif cell_headers[j] == "max_capacity":
                 section["max_capacity"] = _parse_max_capacity(cell.text)
+            elif cell_headers[j] == "meeting_time":
+                days, start_time, end_time, time_display = _parse_meeting_time(cell.text)
+                section["days"] = days
+                section["start_time"] = start_time
+                section["end_time"] = end_time
+                section["time_display"] = time_display
             else:
                 section[cell_headers[j]] = cell.text
 
@@ -146,8 +193,7 @@ def save_to_db(term: str, course_code: str) -> int:
         return -1  # The course doesn't have any sections
     section = sections[0]
 
-    headers = ["section_type", "section_name", "meeting_time", "instructor", "building"]
-    for header in headers:
+    for header in ["section_type", "section_name", "days", "start_time", "end_time", "instructor", "building"]:
         course_data[header] = section.get(header)
 
     course = CourseModel(**course_data)

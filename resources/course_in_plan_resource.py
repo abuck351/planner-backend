@@ -67,7 +67,7 @@ class CourseInPlanResource(Resource):
         course_in_plan = CourseInPlanModel(plan_id=plan_id, course_id=course_id)
         try:
             db.save(course_in_plan)
-            return course_in_plan.json()
+            return {"message": msg.success("CourseInPlan", "added"), "course_in_plan": course_in_plan.json()}
         except:
             traceback.print_exc()
             return {"message": msg.internal_server("save", "Course")}, 500

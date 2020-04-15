@@ -22,7 +22,6 @@ class PlanResource(Resource):
             traceback.print_exc()
             return {"message": msg.internal_server("retrieve", "Plan")}, 500
 
-        print(plans)
         if plans:
             return {"plans": [plan.json() for plan in plans]}
         else:

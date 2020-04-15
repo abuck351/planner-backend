@@ -12,16 +12,13 @@ class CourseModel(db.Model):
     title = db.Column(db.String, nullable=False)
     section_type = db.Column(db.String, nullable=False)
     section_name = db.Column(db.String, nullable=False)
-    meeting_time = db.Column(db.String, nullable=False)
+    days = db.Column(db.String)
+    start_time = db.Column(db.String)
+    end_time = db.Column(db.String)
     instructor = db.Column(db.String, nullable=False)
     building = db.Column(db.String, nullable=False)
 
     def json(self) -> Dict:
-        if self.meeting_time != "TBA":
-            days, time = self.meeting_time.split()
-        else:
-            days, time = "TBA", "TBA"
-
         return {
             "_id": self._id,
             "term": self.term,
@@ -29,8 +26,9 @@ class CourseModel(db.Model):
             "title": self.title,
             "section_type": self.section_type,
             "section_name": self.section_name,
-            "days": days,
-            "time": time,
+            "days": self.days,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
             "instructor": self.instructor,
             "building": self.building,
         }

@@ -13,3 +13,7 @@ PLANNER_SECRET_KEY=xxx
 ```
 
 - To run the app, type `python3 app.py`
+
+## Departments
+
+Must run a `POST` request with no body to `/api/depts` in order to populate the database
