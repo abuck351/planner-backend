@@ -94,6 +94,7 @@ cell_headers = [
     "enrolled",
     "waitlist",
     "requests",
+    "new_only",
     "restrictions",
     "textbooks",
     "website",
