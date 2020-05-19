@@ -17,6 +17,7 @@ class CourseModel(db.Model):
     end_time = db.Column(db.String)
     instructor = db.Column(db.String, nullable=False)
     building = db.Column(db.String, nullable=False)
+    restrictions = db.Column(db.String)
 
     def json(self) -> Dict:
         return {
@@ -31,4 +32,5 @@ class CourseModel(db.Model):
             "end_time": self.end_time,
             "instructor": self.instructor,
             "building": self.building,
+            "restrictions": self.restrictions
         }

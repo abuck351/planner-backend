@@ -10,6 +10,17 @@ from websoc.utils import parse_year_term
 from models.course_model import CourseModel
 
 
+restriction_map = {
+    "A": "Prerequisite required",
+    "B": "Authorization required",
+    "I": "Seniors only",
+    "K": "Graduate only",
+    "L": "Major only",
+    "N": "School major only",
+    "S": "Satisfactory/unsatisfactory only"
+}
+
+
 def _parse_title(text: str) -> str:
     try:
         text_list = text.replace(u"\xa0", u" ").split()
@@ -81,6 +92,17 @@ def _parse_meeting_time(text: str) -> (str, str, str, str):
         return "TBA", None, None, "TBA"
 
 
+def _parse_restrictions(text: str) -> str:
+    restriction_codes = text.split(" and ")
+    restrictions = []
+    for restriction_code in restriction_codes:
+        restriction = restriction_map.get(restriction_code)
+        if restriction:
+            restrictions.append(restriction)
+    if restrictions is None or len(restrictions) == 0:
+        return None
+    return ", ".join(restrictions)
+
 cell_headers = [
     "code",
     "section_type",
@@ -144,6 +166,8 @@ def scrape(search_data: Dict[str, Any]) -> [Dict[str, str]]:
                 section["start_time"] = start_time
                 section["end_time"] = end_time
                 section["time_display"] = time_display
+            elif cell_headers[j] == "restrictions":
+                section["restrictions"] = _parse_restrictions(cell.text)
             else:
                 section[cell_headers[j]] = cell.text
 
@@ -194,7 +218,7 @@ def save_to_db(term: str, course_code: str) -> int:
         return -1  # The course doesn't have any sections
     section = sections[0]
 
-    for header in ["section_type", "section_name", "days", "start_time", "end_time", "instructor", "building"]:
+    for header in ["section_type", "section_name", "days", "start_time", "end_time", "instructor", "building", "restrictions"]:
         course_data[header] = section.get(header)
 
     course = CourseModel(**course_data)
