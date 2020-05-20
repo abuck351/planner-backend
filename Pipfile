@@ -16,6 +16,7 @@ requests = "*"
 python-dotenv = "*"
 webargs = "*"
 gunicorn = "*"
+psycopg2 = "==2.7.5"
 
 [requires]
 python_version = "3.7"
