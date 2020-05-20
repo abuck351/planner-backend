@@ -37,6 +37,8 @@ api.add_resource(PlanResource, "/api/plans/<string:name>")
 api.add_resource(CourseInPlanResource, "/api/plans/<string:plan_name>/course")
 
 
+db.init_app(app)
+
+
 if __name__ == "__main__":
-    db.init_app(app)
     app.run(port=5000, debug=True)
