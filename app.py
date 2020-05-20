@@ -15,12 +15,12 @@ from resources.course_in_plan_resource import CourseInPlanResource
 
 # App Settings
 load_dotenv(verbose=True)
-DB_URI = os.getenv("DB_URI")
+DATABASE_URL = os.getenv("DATABASE_URL")
 PLANNER_SECRET_KEY = os.getenv("PLANNER_SECRET_KEY")
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.secret_key = PLANNER_SECRET_KEY
 CORS(app)
 
