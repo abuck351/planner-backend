@@ -8,7 +8,7 @@
 - Before running, create a file called `.env` for environment variables:
 
 ```
-DB_URI=sqlite:///data.db
+DATABASE_URL=sqlite:///data.db
 PLANNER_SECRET_KEY=xxx
 ```
 
