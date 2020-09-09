@@ -17,3 +17,7 @@ PLANNER_SECRET_KEY=xxx
 ## Departments
 
 Must run a `POST` request with no body to `/api/depts` in order to populate the database
+
+## API Documentation
+
+[Postman Docs](https://documenter.getpostman.com/view/9613028/TVCmQjqt)
