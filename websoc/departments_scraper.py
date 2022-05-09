@@ -8,8 +8,14 @@ import websoc.settings as websoc
 from models.departments_model import DepartmentsModel
 
 
-def _clean_dept_name(text: str) -> str:
-    return text.split(".")[-1]
+def update_departments():
+    _save_to_db(_scrape())
+
+
+def _save_to_db(departments: [Dict]):
+    db.clear_all(DepartmentsModel)
+    models = [DepartmentsModel(**dept) for dept in departments]
+    db.save_list(models)
 
 
 def _scrape() -> [Dict]:
@@ -26,11 +32,5 @@ def _scrape() -> [Dict]:
     return depts
 
 
-def _save_to_db(departments: [Dict]) -> None:
-    db.clear_all(DepartmentsModel)
-    models = [DepartmentsModel(**dept) for dept in departments]
-    db.save_list(models)
-
-
-def update_departments() -> None:
-    _save_to_db(_scrape())
+def _clean_dept_name(text: str) -> str:
+    return text.split(".")[-1]

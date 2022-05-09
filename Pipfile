@@ -17,6 +17,7 @@ python-dotenv = "*"
 webargs = "*"
 gunicorn = "*"
 psycopg2 = "*"
+xmltodict = "*"
 
 [requires]
 python_version = "3.8"
